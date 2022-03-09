@@ -25,13 +25,14 @@ public:
         
         for(int i=0;i<=n-cnt;i++){
             
-            // if(pref[i+cnt-1]!=0){
             int val=pref[i+cnt-1]-pref[i];
             if(arr[i]<=k) val++;
             ans= min(ans, cnt-val);
-            // }
         }
         return ans;
+        
+    //mistake that i was doing -- val = val=pref[i+cnt-1]-pref[i]+1;
+    // but 1 will be added only if current value<=k not everytime
         
     }
 };
