@@ -14,6 +14,8 @@ public:
         ListNode* dummy= new ListNode(0);
         ListNode* ans=dummy->next;
         ListNode* ini= head;
+        
+        //flag will become 1 when we find first non duplicate value;
         int flag=0;
         
         while(ini!=NULL){
@@ -29,10 +31,9 @@ public:
                 ans=ini;
                 flag++;
             }
-            // cout<<cnt<<' ';
             
+            // dry run below step if there is any confusion
             if(cnt==1) {dummy->next=ini; dummy=dummy->next; dummy->next=NULL;}
-            // if(dummy!=NULL) cout<< dummy->val<<" ";
             
             ini=tmp;
             
