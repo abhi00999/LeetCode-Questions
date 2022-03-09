@@ -25,11 +25,11 @@ public:
         
         for(int i=0;i<=n-cnt;i++){
             
-            if(pref[i+cnt-1]!=0){
+            // if(pref[i+cnt-1]!=0){
             int val=pref[i+cnt-1]-pref[i];
             if(arr[i]<=k) val++;
             ans= min(ans, cnt-val);
-            }
+            // }
         }
         return ans;
         
