@@ -1,48 +1,81 @@
-// Solution 1. Dijkstra
-// Do Dijkstra 3 times.
-// First time: store the shortest distance from node a to all other nodes in array da.
-// Second time: store the shortest distance from node b to all other nodes in array db.
-// Third time: store the shortest distance from node dest to all other nodes via Reversed Graph in array dd.
-// The answer is the minimum da[i] + db[i] + dd[i] (0 <= i < N).
-// Time: O(ElogE + N)
-// Space: O(E)
-
+#define pii               pair<long long,long long>
+#define fi                first
+#define se                second
 
 class Solution {
-    typedef pair<long, long> ipair;
 public:
-    long long minimumWeight(int n, vector<vector<int>>& E, int a, int b, int dest) {
-        vector<vector<ipair>> G(n), R(n); // `G` is the original graph. `R` is the reversed graph
-        for (auto &e : E) {
-            long u = e[0], v = e[1], w = e[2];
-            G[u].emplace_back(v, w);
-            R[v].emplace_back(u, w);
-        }
-        vector<long> da(n, LONG_MAX), db(n, LONG_MAX), dd(n, LONG_MAX);
-        auto solve = [&](vector<vector<ipair>> &G, int a, vector<long> &dist) {
-            priority_queue<ipair, vector<ipair>, greater<ipair>> pq;
-            dist[a] = 0;
-            pq.emplace(0, a);
-            while (pq.size()) {
-                auto [cost, u] = pq.top();
-                pq.pop();
-                if (cost > dist[u]) continue;
-                for (auto &[v, c] : G[u]) {
-                    if (dist[v] > dist[u] + c) {
-                        dist[v] = dist[u] + c;
-                        pq.emplace(dist[v], v);
-                    }
+    vector<pair<int,int>> g[100001];
+    vector<pair<int,int>> rev[100001];
+    
+    void dijk(long long src,vector<long long> &distTo){
+        priority_queue<pii, vector<pii>, greater<pii> > pq;
+        long long k=0;
+        distTo[src]=k;
+        
+        pq.push(make_pair(k,src));
+        
+        while(!pq.empty()){
+            long long dist=pq.top().first;
+            long long prev=pq.top().second;
+            
+            pq.pop();
+            for(auto it: g[prev]){
+                long long next=it.first;
+                long long nextDist= it.second;
+                
+                if(distTo[next]>distTo[prev]+nextDist){
+                    distTo[next]=distTo[prev]+nextDist;
+                    pq.push(make_pair(distTo[next],next));
                 }
             }
-        };
-        solve(G, a, da);
-        solve(G, b, db);
-        solve(R, dest, dd);
-        long ans = LONG_MAX;
-        for (int i = 0; i < n; ++i) {
-            if (da[i] == LONG_MAX || db[i] == LONG_MAX || dd[i] == LONG_MAX) continue;
-            ans = min(ans, da[i] + db[i] + dd[i]);
         }
-        return ans == LONG_MAX ? -1 : ans;
+    }
+    void dijk1(long long src,vector<long long> &distTo){
+        priority_queue<pii, vector<pii>, greater<pii> > pq;
+        long long k=0;
+        distTo[src]=k;
+        
+        pq.push(make_pair(k,src));
+        
+        while(!pq.empty()){
+            long long dist=pq.top().first;
+            long long prev=pq.top().second;
+            
+            pq.pop();
+            for(auto it: rev[prev]){
+                long long next=it.first;
+                long long nextDist= it.second;
+                
+                if(distTo[next]>distTo[prev]+nextDist){
+                    distTo[next]=distTo[prev]+nextDist;
+                    pq.push(make_pair(distTo[next],next));
+                }
+            }
+        }
+    }
+    
+    long long minimumWeight(int n, vector<vector<int>>& edges, int src1, int src2, int dest) {
+        long long ans=1e17,x=0,y=0,xx=0,yy=0;
+        map<pair<int,int>,int>m;
+        for(auto it: edges){
+            if(m.find({it[0],it[1]})== m.end()) m[{it[0],it[1]}]= it[2];
+            else m[{it[0],it[1]}]= min(it[2], m[{it[0],it[1]}]);
+            // maxi= max(it[0],it[1]);
+        }
+        for(int i=0;i<1e5+1;i++) g[i].clear(), rev[i].clear();
+        for(auto it: m){
+            g[it.first.first].push_back({it.first.second,it.second});
+            rev[it.first.second].push_back({it.first.first,it.second});
+        }  
+        vector<long long> v1(1e5+2,1e15),v2(1e5+2,1e15),v3(1e5+2,1e15);
+        dijk(src1,v1);
+        dijk(src2,v2);
+        dijk1(dest,v3);
+        
+        for(int i=0;i<1e5+1;i++) ans= min(ans, v1[i]+v2[i]+v3[i]);
+        
+        if(ans>1e12) return -1;
+        return ans;
+        
     }
 };
