@@ -1,3 +1,7 @@
+// Algo used in brief:: First find element just b4 pivot=> pivot is that element which is greater than both its left side and right side element(here index1 is element just b4 pivot)
+//after which start iterating from last index to find an element greater than arr[index1]... after that swap them
+//finally reverse the array from index1+1 to n-1
+
 class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
