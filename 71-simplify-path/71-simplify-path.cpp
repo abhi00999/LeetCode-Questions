@@ -1,3 +1,10 @@
+// pushed all the characters between two "/" to a string...
+// and checked different conditions on that string 
+//dry run:: path="/a/bb/ccc/dddd/../..../"
+//then stack s will be as follows(at line 38)=>  "/", "a" ,"/" ,"bb" ,"/", "ccc" ,"/", "...." 
+// so stacks ss will have => "....","/", "ccc" ,"/" , "bb" , "/" ,"a" ,"/" (we will have to reverse the stack s to form final answer )
+// so final answer will be=> "/a/bb/ccc/...."
+
 class Solution {
 public:
     string simplifyPath(string path) {
@@ -30,6 +37,7 @@ public:
             if(s.top()!="/") s.push("/");
         }
         if(s.top()=="/" && s.size()>1) s.pop();
+        //here
         string ans;
         stack<string> ss;
         while(!s.empty()) { ss.push(s.top());s.pop();}
