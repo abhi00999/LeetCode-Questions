@@ -1,30 +1,40 @@
+//see O(n) time and O(1) space approach too
+
 class Solution {
 public:
     string minRemoveToMakeValid(string s) {
-        int n=s.size(),cnt=0;
-        string ans;
         
-        for(int i=0;i<n;i++){
-            if(s[i]=='(') {ans.push_back(s[i]); cnt++;}
-            
-            else if(s[i]==')' && cnt>0 ){ans.push_back(s[i]); cnt--;}
-            
-            else if(s[i]!='(' && s[i]!=')') ans.push_back(s[i]);
-        }
+        stack<int>st; // helper stack for finding matching parentheses
         
-        if(cnt>0){
-            string temp;
-            int arr[100005]={0},j=ans.size()-1;
-            
-            while(cnt>0){
-                if(ans[j]=='('){ cnt--; arr[j]--;}
-                j--;
+        for(int i=0;i<s.length();++i){
+            if(s[i]=='('){ // for open parentheses push into stack
+                st.push(i);
             }
-            
-            for(int i=0;i<ans.size();i++)if(arr[i]!=-1) temp.push_back(ans[i]);
-            
-            return temp;
+            else if(s[i]==')'){ // for closing parentheses
+                // if no matching previous open parentheses found, we need to remove the index of that open parentheses from "s" so for now we are marking it with special character '#'
+                if(st.empty()){ 
+                    s[i]='#';
+                }
+                else{
+                    // if matching open parentheses found remove that from the stack
+                    st.pop();
+                }
+            }
         }
+
+        // if stack is not empty, that means it contains open parentheses indexes which don't have any matching closing parentheses
+        while(!st.empty()){
+            s[st.top()]='#';
+            st.pop();
+        }
+        
+        string ans="";
+        for(int i=0;i<s.length();++i){
+            if(s[i]!='#'){ // append not marked character to the end of "ans"
+                ans.push_back(s[i]);
+            }
+        }
+        
         return ans;
     }
 };
