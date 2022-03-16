@@ -40,7 +40,6 @@ class Solution
                 }
                 j++;
             }
-            else j++;
         }
         string ans;
         if(start==-1 || end==-1) return "-1";
