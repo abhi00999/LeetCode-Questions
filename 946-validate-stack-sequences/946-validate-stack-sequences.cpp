@@ -1,26 +1,21 @@
+// Solution1: Simulating
+// Initialize am empty stack,
+// iterate and push elements from pushed one by one.
+// Each time, we'll try to pop the elements from as many as possibile popped.
+// In the end, we we'll check if stack is empty.
+
 class Solution {
-public:
+    public:
     bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
-        stack<int> s;
-        int n=pushed.size(),j=0;
-        for(int i=0;i<n;i++){
-            if(j<n && !s.empty() && s.top()==popped[j]){
-                s.pop();
-                j++;
-                i--;
+            stack<int> stack;
+            int i = 0;
+            for (int x : pushed) {
+                stack.push(x);
+                while (stack.size() && stack.top() == popped[i]) {
+                    stack.pop();
+                    i++;
+                }
             }
-            else s.push(pushed[i]);
+            return stack.size() == 0;
         }
-        
-        while(!s.empty() && j<n){
-            if(s.top()==popped[j]){
-                s.pop();
-                j++;
-            }
-            else break;
-        }
-        
-        if(s.empty()) return true;
-        return false;
-    }
 };
