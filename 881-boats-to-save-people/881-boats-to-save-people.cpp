@@ -2,29 +2,24 @@ class Solution {
 public:
     int numRescueBoats(vector<int>& people, int limit) {
         
-        multiset<int> m;
-        for(auto it: people) m.insert(it);        
-        int tot=0;
+        sort(people.begin(),people.end());
+        int i=0,j=people.size()-1,ans=0;
         
-        while(m.size()){
-            int top= *m.begin();
-            m.erase(m.find(top));
-            if(top==limit || m.size()==0) {tot++; continue;}
-            auto it= m.lower_bound(limit-top);
+        while(i<=j){
+            if(i==j) {ans++; break;}
             
-            if(it!=m.end() && *it==limit-top){
-                m.erase(m.find(limit-top));
-                tot++;
-                continue;
+            else if(people[i]+people[j]<=limit){
+                ans++;
+                i++;
+                j--;
             }
+            
             else{
-                if(it!=m.begin())it--;                
-                if(*it+top<=limit){m.erase(m.find(*it)); tot++;}
-                else {m.erase(m.find(*it)); tot+=2;}
-                continue;
+                ans++;
+                j--;
             }
         }
         
-        return tot;
+        return ans;
     }
 };
