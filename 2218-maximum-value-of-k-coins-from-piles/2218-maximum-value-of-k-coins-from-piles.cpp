@@ -5,18 +5,19 @@ public:
     int calc(vector<vector<int> > &piles,int k,int ind){
         if(ind>=piles.size()) return 0;
         
-        int maxi= 0, sum=0;
+        int maxi= 0,non_choose=0,choose=0;
         if(dp[ind][k]!=-1) return dp[ind][k];
         
-        maxi= max(maxi, calc(piles,k,ind+1));
+        non_choose= max(non_choose, calc(piles,k,ind+1));
         
         for(int i=0;i<piles[ind].size();i++){
-            sum+=piles[ind][i];
-            if(k-i-1>=0){
-                maxi= max(maxi, sum+ calc(piles,k-i-1, ind+1));
+            choose+=piles[ind][i];
+            if(k-(i+1)>=0){
+                maxi= max(maxi, choose+ calc(piles,k-(i+1), ind+1));
             }
         }
         
+        maxi=max(maxi,non_choose);
         return dp[ind][k]=maxi;
         
         
