@@ -32,8 +32,7 @@ int main()
 // Space Complexity :  O(1)
 
  
-
-
+//low<high condition is important for n=0
 bool findPair(int arr[], int size, int n){
    sort(arr,arr+size);
    int low=0,high=1;
