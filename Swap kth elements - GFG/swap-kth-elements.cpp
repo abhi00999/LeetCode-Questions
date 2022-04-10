@@ -11,11 +11,11 @@ public:
 	// swap k'th element from beginning and end
 	void swapKth(int *arr, int n, int k) {
 	    // code here
-	    int front=arr[k-1], back= arr[n-k];
+	   // int front=arr[k-1], back= arr[n-k];
 	    
-        arr[k-1]=back;
-        arr[n-k]=front;
-        
+    //     arr[k-1]=back;
+    //     arr[n-k]=front;
+        swap(arr[k-1],arr[n-k]);
 	        
 	}
 };
