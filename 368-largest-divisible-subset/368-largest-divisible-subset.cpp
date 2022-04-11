@@ -1,3 +1,9 @@
+// For an increasingly sorted array of integers a[1 .. n]
+
+// dp[n] = the length of the largest divisible subset whose largest number is a[n]
+
+// dp[n+1] = max{ 1 + dp[i] if a[n+1] mod a[i] == 0 else 1 }
+
 class Solution {
 public:
     
@@ -19,6 +25,8 @@ public:
                 maxi=dp[i];
             }
         }
+        
+        //for finding the resultant answer
         ans.push_back(v[ind]);
         int val=maxi-1;
         for(int i=ind-1;i>=0;i--){
