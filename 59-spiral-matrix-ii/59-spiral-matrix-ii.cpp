@@ -2,38 +2,43 @@ class Solution {
 public:
     
     vector<vector<int>> generateMatrix(int n) {
-        int cnt=0,tot= n*n;
-        int left=0,right=n-1,val=1,up=0,down=n-1;
         
-        vector<vector<int> > v(n, vector<int>(n));
-        
-        while(val<=tot){
-            
-            for(int i=left;i<=right;i++){
-                v[up][i]=val;
-                val++;
-            }
-            up++;
-            
-            for(int j=up;j<=down;j++){
-                v[j][right]=val;
-                val++;
-            }
-            right--;
-            
-            for(int i=right;i>=left;i--){
-                v[down][i]=val;
-                val++;
-            }
-            down--;
-            
-            for(int j=down;j>=up;j--){
-                v[j][left]=val;
-                val++;
-            }          
-            left++;
-            
+        vector<vector<int>> matrix(n, vector<int>(n));
+        if (n == 0) {
+            return matrix;
         }
-        return v;
+        
+        // Normal Case
+        int rowStart = 0;
+        int rowEnd = n-1;
+        int colStart = 0;
+        int colEnd = n-1;
+        int num = 1; //change
+        
+        while (rowStart <= rowEnd && colStart <= colEnd) {
+            for (int i = colStart; i <= colEnd; i ++) {
+                matrix[rowStart][i] = num ++; //change
+            }
+            rowStart ++;
+            
+            for (int i = rowStart; i <= rowEnd; i ++) {
+                matrix[i][colEnd] = num ++; //change
+            }
+            colEnd --;
+            
+            for (int i = colEnd; i >= colStart; i --) {
+                if (rowStart <= rowEnd)
+                    matrix[rowEnd][i] = num ++; //change
+            }
+            rowEnd --;
+            
+            for (int i = rowEnd; i >= rowStart; i --) {
+                if (colStart <= colEnd)
+                    matrix[i][colStart] = num ++; //change
+            }
+            colStart ++;
+        }
+        
+        return matrix;
     }
 };
