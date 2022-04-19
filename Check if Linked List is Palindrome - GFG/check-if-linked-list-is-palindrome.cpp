@@ -29,6 +29,10 @@ struct Node {
 };
 */
 
+// O(N) time and O(1) space
+// find length
+// reverse the second half of the LL
+// compare with two pointers, one at the beginning and another at the middle
 class Solution{
   public:
     //Function to check whether the list is palindrome.
