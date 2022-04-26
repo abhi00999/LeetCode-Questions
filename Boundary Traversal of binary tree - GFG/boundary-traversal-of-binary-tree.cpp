@@ -128,8 +128,8 @@ public:
         
         // travelling left boundary
         while(it!=NULL){
-            if(it->left!=NULL || it->right!=NULL)res.push_back(it->data);
-            if(it->left!=NULL)it=it->left;
+            if((it->left) || (it->right))res.push_back(it->data);
+            if((it->left))it=it->left;
             else it=it->right;
         }
         
@@ -139,8 +139,8 @@ public:
         
         // travelling right boundary
         while(it1!=NULL){
-            if(it1->left!=NULL || it1->right!=NULL)res2.push_back(it1->data);
-            if(it1->right!=NULL)it1=it1->right;
+            if((it1->left) || (it1->right))res2.push_back(it1->data);
+            if((it1->right))it1=it1->right;
             else it1=it1->left;
             
         }
