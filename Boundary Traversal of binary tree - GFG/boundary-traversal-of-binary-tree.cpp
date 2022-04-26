@@ -121,17 +121,23 @@ public:
         res.push_back(root->data);
         auto it= root->left;
         auto it1=root->right;
+        
+        //condition for single node
         if(!it && !it1) return res;
         
+        
+        // travelling left boundary
         while(it!=NULL){
             if(it->left!=NULL || it->right!=NULL)res.push_back(it->data);
             if(it->left!=NULL)it=it->left;
             else it=it->right;
         }
         
+        // travelling leaf nodes
         leaf(res1,root);
         for(int i=0;i<res1.size();i++) res.push_back(res1[i]);
         
+        // travelling right boundary
         while(it1!=NULL){
             if(it1->left!=NULL || it1->right!=NULL)res2.push_back(it1->data);
             if(it1->right!=NULL)it1=it1->right;
