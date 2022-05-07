@@ -98,7 +98,7 @@ class Solution {
         string s="";
         if(!root->left && !root->right)
         {
-            s="*"+to_string(root->data);
+            s="*"+to_string(root->data)+"*";
             return s;
         }
         s+=preorder(root->left);
