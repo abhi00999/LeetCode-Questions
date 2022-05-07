@@ -91,30 +91,30 @@ struct Node
 class Solution {
   public:
     
-    map<string,int> m;
-    
-    string fun(Node* root){
-        if(root==NULL) return "";
-        
-        string left=fun(root->left), right=fun(root->right);
-        
-        
-        string cur= left+to_string(root->data)+right;
-        
-        //only considering subtrees of size two or more
-        if(left.size() || right.size()){
-            m[cur]++;
+    unordered_map<string,int>m;
+    string preorder(Node*root)
+    {
+        if(!root)return "*";
+        string s="";
+        if(!root->left && !root->right)
+        {
+            s="*"+to_string(root->data);
+            return s;
         }
-        return cur;
+        s+=to_string(root->data);
+        s+=preorder(root->left);
+        s+=preorder(root->right);
+        m[s]++;
+        return s;
     }
-    
     int dupSub(Node *root) {
-         // code here
-        m.clear();
-        fun(root);
-        
-        for(auto it: m) if(it.second>1) return 1;
-        return 0;
+           
+             preorder(root); 
+             for(auto i:m)
+             {
+                 if(i.second>=2)return true;
+             }
+             return false;
          
     }
 };
