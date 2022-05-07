@@ -107,7 +107,9 @@ class Solution{
                 lvl=i;
             
             return lvl==i; // check if at same level as other leaf nodes
-        }else{
+        }
+        
+        else{
             return solve(root->left,i+1,lvl) && solve(root->right,i+1,lvl);
         }
     }
