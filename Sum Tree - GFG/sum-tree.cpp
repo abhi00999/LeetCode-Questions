@@ -102,7 +102,7 @@ class Solution
         int val= root->data;
         int lsum= calc(root->left), rsum= calc(root->right);
         
-        if(root->left && root->right){
+        if(root->left || root->right){
             if(val!=lsum+rsum) ans=false;
         }
         return val+lsum+rsum;
