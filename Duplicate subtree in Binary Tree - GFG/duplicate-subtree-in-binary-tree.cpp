@@ -101,8 +101,8 @@ class Solution {
             s="*"+to_string(root->data);
             return s;
         }
-        s+=to_string(root->data);
         s+=preorder(root->left);
+        s+=to_string(root->data);
         s+=preorder(root->right);
         m[s]++;
         return s;
@@ -110,6 +110,10 @@ class Solution {
     int dupSub(Node *root) {
            
              preorder(root); 
+            //  if in doubt print the below line to see various output
+            
+            //  for(auto it: m) cout<<it.first<<"\n";
+             
              for(auto i:m)
              {
                  if(i.second>=2)return true;
