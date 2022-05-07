@@ -99,10 +99,13 @@ class Solution {
         string left=fun(root->left), right=fun(root->right);
         
         
+        string cur= left+to_string(root->data)+right;
+        
+        //only considering subtrees of size two or more
         if(left.size() || right.size()){
-            m[left+ to_string(root->data)+ right]++;
+            m[cur]++;
         }
-        return left+ to_string(root->data)+ right;
+        return cur;
     }
     
     int dupSub(Node *root) {
