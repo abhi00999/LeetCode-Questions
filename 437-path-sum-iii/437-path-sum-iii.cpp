@@ -16,8 +16,8 @@ public:
         
         long long cur= sum_till_now + root->val;
         
-        // if(cur==sum) return 1+ fun(root->left,sum, cur)+ fun(root->right, sum, cur);
-        return (cur==sum)+fun(root->left,sum, cur)+ fun(root->right, sum, cur);
+        if(cur==sum) return 1+ fun(root->left,sum, cur)+ fun(root->right, sum, cur);
+        return fun(root->left,sum, cur)+ fun(root->right, sum, cur);
     }
     int pathSum(TreeNode* root, int targetSum) {
         if(!root) return 0;
