@@ -139,6 +139,8 @@ struct Node
 // Your are required to complete this function
 // function should return root of the modified BST
 
+
+//if "&" is not put before v then vector will remain empty
 void inorder(Node* root, vector<int> &v){
     if(!root) return;
     
@@ -169,6 +171,7 @@ Node* buildBalancedTree(Node* root)
 	// Code here
 	vector<int> v;
 	inorder(root, v);
+// 	for(auto it: v) cout<<it<<" ";
 	Node *root1= buildTree(v,0, v.size()-1);
 	return root1;
 }
