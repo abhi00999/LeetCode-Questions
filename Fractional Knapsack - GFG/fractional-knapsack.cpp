@@ -29,7 +29,7 @@ class Solution
         
         
         for(int i=0;i<n;i++){
-            double unitVal= (arr[i].value / (arr[i].weight*1.0));
+            double unitVal= (arr[i].value*1.0) / (arr[i].weight);
             
             v.push_back({unitVal,{arr[i].value, arr[i].weight}});
         }
