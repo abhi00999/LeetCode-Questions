@@ -1,6 +1,6 @@
 class Solution {
 public:
-    
+    //Dijkstra works in cyclic graph too:: as in question some examples are cyclic
     // Using Priority queue (Min-heap)
     int networkDelayTime(vector<vector<int>>& times, int N, int K) {
         vector<pair<int,int>> g[N+1];
