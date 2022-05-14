@@ -29,6 +29,7 @@ class Solution {
         tmp.pop_back();
         
         //if the below while loop is not added then gives tle
+        //the purpose of adding while loop is to skip same elements
         while(ind<v.size() && v[ind]==cur) ind++;
         f(ind,sum,v,tot, tmp, res);
     }
@@ -39,7 +40,7 @@ class Solution {
         sort(A.begin(),A.end());
         vector<int> tmp;
         f(0,0,A,B,tmp,res);
-        // return vector<vector<int>> (res.begin(),res.end());
+        
         return res;
     }
 };
