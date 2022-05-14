@@ -1,76 +1,50 @@
-
-bool check(string s){
-    int n=s.size(),cnt=0;
-    for(int i=0;i<n;i++){
-        if(s[i]=='(') cnt++;
-
-        else if(s[i]==')'){
-            if(cnt>0) cnt--;
-            else return false;
-        }
-    }
-    
-    if(cnt==0) return true;
-    return false;
-}
+//first accepted is your original solution
 class Solution {
-public:
-    void f(int ind, string st, set<string> &v, string s, int sz, int val){
-        // cout<<ind<<" "<<val<<" "<<st<<endl;
-        if(val<0) return;
-        if(st.size()==sz && val==0){
-            // cout<<st<<"\n";
-            if(check(st)) v.insert(st);
-            return;
+private:
+    bool isValid(string s) {
+        int sum = 0;
+        for(char &c : s) {
+            if(c == '(') ++sum;
+            else if(c == ')') --sum;
+            if(sum < 0) return false;
         }
-        int left=s.size()-ind;
-        int req= sz- st.size();
-        
-        if(req>left) return;
-        if(ind>=s.size()) return;
-        
-        if(s[ind]!='(' && s[ind]!=')'){
-            st.push_back(s[ind]);
-            f(ind+1,st, v, s, sz,val);
-        }
-        
-        else{
-            if(s[ind]=='(') val++;
-            else val--;
-            st.push_back(s[ind]);
-            f(ind+1,st, v, s, sz,val);
-            st.pop_back();
-            if(s[ind]=='(') val--;
-            else val++;
-            f(ind+1,st, v, s, sz,val);
-        }
+        return sum == 0;
     }
+public:
     vector<string> removeInvalidParentheses(string s) {
-        int n=s.size(),cnt=0,res=0;
-        
-        for(int i=0;i<n;i++){
-            if(s[i]=='(') cnt++;
-            
-            else if(s[i]==')'){
-                if(cnt>0) cnt--;
-                else res++;
+        int num1 = 0, num2 = 0;
+        for(char &c : s) {
+            num1 += c == '(';
+            if (num1 == 0) {
+                num2 += c == ')';
+            } else {
+                num1 -= c == ')';
             }
         }
-        
-        res+=cnt;
-        int sz=n-res;
-        // cout<<sz<<' ';
-        string st="";
-        set<string> v;
-        vector<string> v1;
-        int val=0,cntt=0;
-        string tmp;
-        for(int i=0;i<n;i++) {if(s[i]=='(' || s[i]==')') cntt++; else tmp.push_back(s[i]);}
-        if(n-cntt==sz) return {tmp};         
-        if(sz==0) return {""};
-        
-        f(0,st, v, s, sz, val);
-        for(auto it: v) v1.push_back(it);
-        return v1;
+        vector<string> ret;
+        dfs(s, 0, num1, num2, ret);
+        return ret;
+    }
+    void dfs(string s, int beg, int num1, int num2, vector<string> &ret) {
+        if(num1 == 0 && num2 == 0) {
+            if(isValid(s))
+                ret.push_back(s);
+        } else {
+            for(int i = beg; i < s.size(); ++i) {
+                string tmp = s;
+                if(num2 == 0 && num1 > 0 && tmp[i] == '(') {
+                    if(i == beg || tmp[i] != tmp[i - 1]) {
+                        tmp.erase(i, 1);
+                        dfs(tmp, i, num1 - 1, num2, ret);
+                    }
+                }
+                if(num2 > 0 && tmp[i] == ')') {
+                    if(i == beg || tmp[i] != tmp[i - 1]) {
+                        tmp.erase(i, 1);
+                        dfs(tmp, i, num1, num2 - 1, ret);
+                    }
+                }
+            }
+        }
     }
 };
