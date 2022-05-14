@@ -12,11 +12,11 @@ class Solution {
   public:
     //Function to return a list of indexes denoting the required 
     //combinations whose sum is equal to given number.
-    void f(int ind, int sum, vector<int> &v , int tot, vector<int> &tmp, set<vector<int>> &res){
+    void f(int ind, int sum, vector<int> &v , int tot, vector<int> &tmp, vector<vector<int>> &res){
         if(ind>=v.size() || sum> tot) return;
         
         if(sum==tot){
-            res.insert(tmp);
+            res.push_back(tmp);
             return;
         }
         
@@ -27,17 +27,20 @@ class Solution {
         
         sum-=v[ind];
         tmp.pop_back();
+        
+        //if the below while loop is not added then gives tle
         while(ind<v.size() && v[ind]==cur) ind++;
         f(ind,sum,v,tot, tmp, res);
     }
     vector<vector<int> > combinationSum(vector<int> &A, int B) {
         // Your code here
-        set<vector<int> > res;
+        vector<vector<int> > res;
         
         sort(A.begin(),A.end());
         vector<int> tmp;
         f(0,0,A,B,tmp,res);
-        return vector<vector<int>> (res.begin(),res.end());
+        // return vector<vector<int>> (res.begin(),res.end());
+        return res;
     }
 };
 
