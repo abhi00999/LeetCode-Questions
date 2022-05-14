@@ -6,34 +6,29 @@ using namespace std;
 class Solution
 {
 	public:
-	    void permute(string a, int l, int r, vector<string> &res)
-        {
-            // Base case
-            if (l == r) res.push_back(a);
-            else
-            {
-                // Permutations made
-                for (int i = l; i <= r; i++)
-                {
-         
-                    // Swapping done
-                    swap(a[l], a[i]);
-         
-                    // Recursion called
-                    permute(a, l+1, r,res);
-         
-                    //backtrack
-                    swap(a[l], a[i]);
-                }
-            }
-        }
+	    
+	    void f(int ind, string s, vector<string> &res){
+	        if(ind==s.size()){
+	           // cout<<s<<"\n";
+	            res.push_back(s);
+	            return;
+	        }
+	        
+	        for(int i=ind;i<s.size();i++){
+	            swap(s[ind],s[i]);
+	            f(ind+1, s, res);
+	            swap(s[ind],s[i]);
+	        }
+	    }
+	    
 		vector<string>find_permutation(string S)
 		{
 		    // Code here there
 		    vector<string> res;
-		    permute(S,0,S.size()-1,res);
+		    f(0, S, res);
 		    sort(res.begin(),res.end());
 		    return res;
+
 		}
 };
 
