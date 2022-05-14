@@ -1,5 +1,8 @@
 class Solution {
 public:
+    // Bellman-Ford Time: O(VE) Space: O(N)
+    // SPFA Time: average O(E), worst O(VE) Space: O(V+E)
+    // Dijkstra Time: O(E+VlogV) Space: O(V+E)
     //Dijkstra works in cyclic graph too:: as in question some examples are cyclic
     // Using Priority queue (Min-heap)
     int networkDelayTime(vector<vector<int>>& times, int N, int K) {
