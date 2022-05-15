@@ -19,6 +19,9 @@ class Solution{
             return false;
         }
         
+        
+        //didnt understant the optimization for if else in the below for loop
+        //try again also see other approaches
         for(int i=0;i<k;i++){
             
             if(arr[i]>0){
