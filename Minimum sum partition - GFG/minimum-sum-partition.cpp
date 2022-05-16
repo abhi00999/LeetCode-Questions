@@ -9,7 +9,6 @@ class Solution{
 	int minDifference(int arr[], int n)  { 
 	    // Your code goes here
 	    int totSum=0;
-	   // sort(arr,arr+n);
 	    for(int i=0;i<n;i++) totSum+=arr[i];
 	    int k=totSum;
 	    vector< vector<bool> > dp(n, vector<bool>(k+1,false));
