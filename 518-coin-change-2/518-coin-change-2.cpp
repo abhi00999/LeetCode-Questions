@@ -1,3 +1,5 @@
+// dp[ind][target] denotes different no. of ways we can achieve sum==target if we use coins from (0 to ind);
+
 class Solution {
 public:
     int f(int ind, int amount, vector<int> &coins, vector<vector<int>>&dp){
