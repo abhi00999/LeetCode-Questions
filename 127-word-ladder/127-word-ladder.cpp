@@ -1,86 +1,42 @@
-// Time Complexity --> O( 26 * n * n * w)
-// where 26 represents that we are trying each possibility of alphabet
-// first n is the length of word 
-// anthor n for string compare and w for number of words.
-
-// Space Complexity --> O(n) // we are using unordered set from our side
-// It paases [ 50 / 50 ] in built test cases
-// Code (C++)
-
-// for speeding up our code
-static int speedUp=[](){
-    std::ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
-    return 0;
-}();
-
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        unordered_set<string> wordSet; // declare an unordered set
         
-        bool isPresent = false; // to find whether end word is present in word list or not
+        set<string> s;
+        map<string, int> vis;
+        for(auto it: wordList) {s.insert(it); vis[it]=0;}
         
-        // Inserting all words from wordList to wordSet
-        for(string word: wordList)
-        {
-            if(endWord.compare(word) == 0) // if end word is present in wordList
-            {
-                isPresent = true;
-            }
+        if(s.find(endWord)==s.end()) return 0;
+        
+        queue<string> q;
+        q.push(beginWord);
+        int ans=1;
+        
+        while(!q.empty()){
+            int sz= q.size();
+            ans++;
             
-            wordSet.insert(word); // Inserting each word in wordSet
-        }
-        
-        if(isPresent == false) // if end word is not present in worrd List
-            return 0;
-        
-        queue<string> q; // declare an queue, for BFS traversal
-        q.push(beginWord); // push begi word into our queue
-        
-        int depth = 0; // for telling depth of the queue we are exploring
-        
-        // Implementing BFS
-        while(q.empty() == false)
-        {
-            depth = depth + 1; // if one level is over increment depth
-            
-            int levelSize = q.size(); // number of words present at a level
-            
-            // travelling in each level
-            while(levelSize--)
-            {
-                string curr = q.front();
+            while(sz--){
+                string cur= q.front();
                 q.pop();
                 
-                // checking for all possible depth word
-                for(int i = 0; i < curr.length(); i++) // for each index
-                {
-                    string temp = curr; 
-                    
-                    //checking out each possibility of alphabet
-                    for(char c = 'a'; c <= 'z'; c++)
-                    {
-                        temp[i] = c;
+                for(int i=0;i<cur.size();i++){
+                    for(int j=0;j<26;j++){
+                        string neww= cur.substr(0,i) ;
+                        neww.push_back(j+'a');
+                        neww+= cur.substr(i+1);
                         
-                        if(curr.compare(temp) == 0) // skipping the same word
-                            continue;
-                        
-                        if(temp.compare(endWord) == 0) // if matches with end word
-                            return depth + 1;
-                        
-                        // if present in word set
-                        if(wordSet.find(temp) != wordSet.end())
-                        {
-                            q.push(temp);
-                            wordSet.erase(temp);
+                        if(cur!=neww && s.find(neww)!=s.end() && vis[neww]==0){
+                            vis[neww]=1;
+                            q.push(neww);
+                            if(neww==endWord) return ans;
                         }
                     }
                 }
             }
         }
         
-        return 0; // and at last, we still not able to find our end word.
+        return 0;     
+        
     }
 };
