@@ -29,7 +29,7 @@ class Solution{
         }
         
         vector<vector<int>> adj(26);
-        set<pair<int,int> > ss;
+        
         for(int i=0;i<N-1;i++){
             string cur= dict[i], next= dict[i+1];
             int j=0;
@@ -38,14 +38,8 @@ class Solution{
                 if(cur[j]==next[j]) {j++; continue;}
                 else{
                     int x=cur[j]-'a',y=next[j]-'a';
-                    
-                    if(ss.find({x,y})==ss.end() && ss.find({y,x})==ss.end()){
-                        adj[cur[j]-'a'].push_back(next[j]-'a');
-                        break;
-                        ss.insert({x,y});
-                        ss.insert({y,x});
-                    }
-                    else j++;
+                    adj[cur[j]-'a'].push_back(next[j]-'a');
+                    break;
                 }
             }
         }
@@ -58,15 +52,13 @@ class Solution{
 	    }
 	    
 	    reverse(v.begin(),v.end());
-	    map<char, int> mm;
-	    for(auto it: v) mm[it]++;
-	    if(v.size()==K){
+	   // if(v.size()==K){
 	        for(auto it: v) res.push_back('a'+it);
-	    }
-	    else{
-	        for(int i=0;i<K;i++) if(mm[i+'a']==0) v.push_back(i);
-	        for(auto it: v) res.push_back('a'+it);
-	    }
+	   // }
+	   // else{
+	   //     for(int i=0;i<K;i++) if(mm[i+'a']==0) v.push_back(i);
+	   //     for(auto it: v) res.push_back('a'+it);
+	   // }
 	   // cout<<res<<"\n";
 	    return res;
         
