@@ -1,25 +1,55 @@
 class Solution {
 public:
-    map<pair<int,int>,int> m;
-    int f(int ind, int sum, int target, vector<int> &nums, vector<vector<int>> &dp){
-        
-        // if(sum==target) return 1;
-        if(ind<0){
-            if(sum==target)return 1;
+    //s1= elements in front of which we have put plus sign
+    //s2= elements in front of which we have put minus sign
+    //so this question becomes count partitions with difference= target
+    //s1-s2=target
+    //s1+s2=sum
+    //2*s1= (target+sum)
+    //s1= (target+sum)/2 or s2=(target-sum)/2 ;  
+    //so question becomes find no. of subsets with sum=s1 or sum=s2
+    
+    int countPartitionsUtil(int ind, int target, vector<int>& arr, vector<vector<int>> &dp){
+
+         if(ind == 0){
+            if(target==0 && arr[0]==0)
+                return 2;
+            if(target==0 || target == arr[0])
+                return 1;
             return 0;
         }
-        
-        if(m.find({ind,sum})!=m.end()) return m[{ind,sum}] ;
-        int pos= f(ind-1, sum+nums[ind], target, nums, dp);
-        int neg= f(ind-1, sum-nums[ind], target, nums, dp);
-        
-        return m[{ind,sum}]=pos+neg;
-        
+
+        if(dp[ind][target]!=-1)
+            return dp[ind][target];
+
+        int notTaken = countPartitionsUtil(ind-1,target,arr,dp);
+
+        int taken = 0;
+        if(arr[ind]<=target)
+            taken = countPartitionsUtil(ind-1,target-arr[ind],arr,dp);
+
+        return dp[ind][target]= (notTaken + taken);
     }
-    int findTargetSumWays(vector<int>& nums, int target) {
-        int n=nums.size(),sum=0;
-        vector<vector<int>> dp(n, vector<int>(1001,-1));
+
+    int countPartitions(int d, vector<int>& arr){
+        int n = arr.size();
+        int totSum = 0;
+        for(int i=0; i<arr.size();i++){
+            totSum += arr[i];
+        }
+
+        //Checking for edge cases
+        if(totSum-d<0) return 0;
+        if((totSum-d)%2==1) return 0;
+
+        int s2 = (totSum-d)/2;
+
+        vector<vector<int>> dp(n,vector<int>(s2+1,-1));
+        return countPartitionsUtil(n-1,s2,arr,dp);
+    }
         
-        return f(n-1, sum, target, nums, dp);
+    
+    int findTargetSumWays(vector<int>& nums, int target) {
+        return countPartitions(target,nums);
     }
 };
