@@ -1,3 +1,12 @@
+// Approach: for each connected component find extra connections in it
+// extra connections = total connections - (minimum no. of connections)
+// (minimum no. of connections)= no. of nodes - 1
+// total connections= we traverse all vertices in a component, compute sum of sizes of their adjacency lists
+// and total connection will be sum/2 (if not understanding then draw an example graph)
+// Now if total no. of components= x, then extra wires required will be x-1
+// So if extra Wires>=components-1 then ans=components-1
+
+
 class Solution {
 public:
     
@@ -32,15 +41,11 @@ public:
                 dfs(i,nodes,vis,adj);
                 
                 for(auto it: nodes){ sum+= adj[it].size();}
-                // cout<<sum<<" "<<'\n';
                 if(nodes.size()>1)extWires+= sum/2 - (nodes.size()-1);
             }
             
         }
-        // cout<<components<<' ';
-        
-        components--;
-        if(extWires>=components) return components;
+        if(extWires>=components-1) return components-1;
         return -1;
     }
 };
