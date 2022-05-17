@@ -3,10 +3,9 @@ public:
     map<pair<int,int>,int> m;
     int f(int ind, int sum, int target, vector<int> &nums, vector<vector<int>> &dp){
         
-        if(ind==0){
-            if(sum+nums[ind]==target && sum-nums[ind]==target) return 2;
-            else if(sum+nums[ind]==target || sum-nums[ind]==target) return 1;
-            
+        // if(sum==target) return 1;
+        if(ind<0){
+            if(sum==target)return 1;
             return 0;
         }
         
