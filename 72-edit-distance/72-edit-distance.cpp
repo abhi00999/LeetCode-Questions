@@ -9,6 +9,9 @@ public:
         if(dp[i][j]!=-1) return dp[i][j];
         if(s[i]==t[j]) return dp[i][j]=f(i-1,j-1,s,t);
         
+//op1-> insertion
+//op2->deletion
+//op3->replacement
         int op1= 1+f(i,j-1,s,t), op2= 1+f(i-1,j,s,t), op3= 1+f(i-1,j-1,s,t);
         
         return dp[i][j]=min({op1,op2,op3});
