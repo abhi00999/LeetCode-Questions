@@ -1,6 +1,6 @@
 class Solution {
 public:
-    
+    //if we take &s and &t then solution gets accepted
     int f(int i, int j, string &s, string &t, vector<vector<int>> &dp){
         //j<0 means we have reached end of string t
         if(j<0) return 1;
