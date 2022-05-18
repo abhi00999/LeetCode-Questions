@@ -9,18 +9,29 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+//this is O(n) solution
+// O(n) solution explanation--> https://www.youtube.com/watch?v=yyZA4v0x16w
 class Solution {
 public:
-    int fun(TreeNode* root, long long sum, long long sum_till_now){
-        if(!root) return 0;
+    int ans;
+    void calc(TreeNode* root, map<long long, long long> &m, long long sum_till_now, long long targetSum){
+        if(!root) return;
+        int cur= sum_till_now+ root->val;
         
-        long long cur= sum_till_now + root->val;
+        if(m[cur-targetSum]) ans+= m[cur-targetSum];
+        m[cur]++;
         
-        if(cur==sum) return 1+ fun(root->left,sum, cur)+ fun(root->right, sum, cur);
-        return fun(root->left,sum, cur)+ fun(root->right, sum, cur);
+        calc(root->left, m, cur, targetSum );
+        calc(root->right, m, cur, targetSum);
+        m[cur]--;
     }
     int pathSum(TreeNode* root, int targetSum) {
         if(!root) return 0;
-        return fun(root,targetSum,0)+ pathSum(root->left, targetSum)+ pathSum(root->right, targetSum);
+        map<long long, long long> m;
+        m[0]=1;
+        ans=0;
+        calc(root, m, 0, targetSum);
+        return ans;
+
     }
 };
