@@ -1,32 +1,24 @@
 class Solution {
 public:
-    // dp[ind1][ind2] denotes minimum number of operations required to convert s1(ind1 to s1.size()) to s2(ind2 to s2.size();
-    int ans;
     int dp[505][505];
-    int calc(int ind1,int ind2, string s1,string s2){
-        if(ind1>=s1.size()|| ind2>=s2.size()){
-            return (s1.size()-ind1)+ (s2.size()-ind2);
-        }
-        if(dp[ind1][ind2]!=-1) return dp[ind1][ind2];
+    int f(int i,int j, string s, string t){
         
-        if(s1[ind1]==s2[ind2]) return dp[ind1][ind2]=calc(ind1+1,ind2+1,s1,s2);
+        if(j<0) return i+1;
+        if(i<0) return j+1;
         
-        //Case 1: Insert
-        int op1= calc(ind1,ind2+1,s1,s2)+1;
+        if(dp[i][j]!=-1) return dp[i][j];
+        if(s[i]==t[j]) return dp[i][j]=f(i-1,j-1,s,t);
         
-        //Case 2: Delete
-        int op2= calc(ind1+1,ind2,s1,s2)+1;
+        int op1= 1+f(i,j-1,s,t), op2= 1+f(i-1,j,s,t), op3= 1+f(i-1,j-1,s,t);
         
-        // Case 3: Replace
-        int op3= calc(ind1+1,ind2+1,s1,s2)+1;
-        
-        return dp[ind1][ind2]= min({op1,op2,op3});
+        return dp[i][j]=min({op1,op2,op3});
     }
+    
     int minDistance(string word1, string word2) {
-        ans=INT_MAX;
-        memset(dp,-1,sizeof (dp));
-        // cout<<dp[0][0]<<' ';
-        int sum=0;
-        return calc(0,0,word1,word2);
+        int n=word1.size(), m=word2.size();
+        if(n==0) return m;
+        if(m==0) return n;
+        memset(dp,-1,sizeof(dp));
+        return f(n-1, m-1, word1, word2 );
     }
 };
