@@ -1,3 +1,5 @@
+// dp[ind][buy][tr]--> tells us maximum profit earned if we have elements from arr(ind to n-1) and we can either buy or sell(which can be told by "buy" i.e o=if buy==1 then at cy=urrent index we can buy and if buy==0 then at current index we can sell) and we have "tr" no. of transactions left
+
 class Solution {
 public:
     int dp[1005][2][105];
