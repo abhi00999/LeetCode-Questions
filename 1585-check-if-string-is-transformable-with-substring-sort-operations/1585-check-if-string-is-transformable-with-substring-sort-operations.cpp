@@ -1,3 +1,9 @@
+// Algorithm
+// Collect indexes of all characters 0-9 of the source strings in idx. For each characters, we track which indexes we have used.
+// For each character ch in the target string, check if we have it in idx. If so, verify that there are no smaller characters in front of it. To do that, we check the current idexes of all characters less than ch.
+// If the character can be moved we pop its index.
+//  Eg: If s="84532" && t="85432" then second for loop will run 2 times and will return false when index=2
+
 class Solution {
 public:
     bool isTransformable(string s, string t) {
@@ -19,7 +25,7 @@ public:
             
             for(int i=0;i<x;i++){
                 int sz1=v[i].size();
-                if(sz1 && v[i][sz1-1]<pos) return false;
+                if(sz1 && v[i][sz1-1]<=pos) return false;
             }
             v[x].pop_back();
         }
