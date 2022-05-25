@@ -14,6 +14,8 @@ public:
             int height = env[1];
             int left = lower_bound(dp.begin(), dp.end(), height) - dp.begin();
             if (left == dp.size()) dp.push_back(height);
+            
+            //Variation of lis so we will have to keep changing by below step
             dp[left] = height;
         }
         return dp.size();
