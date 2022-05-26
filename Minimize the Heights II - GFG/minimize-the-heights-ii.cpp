@@ -12,22 +12,21 @@ class Solution {
     int getMinDiff(int arr[], int n, int k) {
         // code here
         sort(arr,arr+n);
+        int ans=arr[n-1]-arr[0];
         
-        int val=arr[n-1]-arr[0];
+        int smallest=arr[0]+k;
+        int largest= arr[n-1]-k;
+        int mini,maxi;
+        
         for(int i=0;i<n-1;i++){
-            if(arr[i+1]<k) continue;
+            maxi= max(largest, arr[i]+k);
+            mini= min(smallest, arr[i+1]-k);
             
-            int mini_left= arr[0]+k,maxi_left=arr[i]+k;
-            int mini_right= arr[i+1]-k,maxi_right=arr[n-1]-k;
-            
-            int tot_max=max(maxi_right,maxi_left),tot_min= min(mini_right,mini_left);
-            if(tot_min<=tot_max) val= min(val,tot_max-tot_min);
-            // cout<<val<<" ";
-            
+            if(mini<0) continue;
+            ans= min(ans, maxi-mini);
         }
-        // cout<<'\n';
         
-        return val;
+        return ans;
         
     }
 };
