@@ -12,19 +12,40 @@ class Solution{
     long long maxSubarraySum(int arr[], int n){
         
         // Your code here
-        long long maxi=0,curr_max=0,cnt=0,maxi1=-1e14;
-        
-        for(int i=0;i<n;i++){
-            if(arr[i]<0) cnt++;
-            maxi1= max(maxi1,(long long)arr[i]);
-            
-            curr_max+=arr[i];
-            if(curr_max<0) curr_max=0;
-            maxi= max(curr_max,(long long)maxi);
-        }
-        
-        if(cnt==n) return maxi1;
-        return maxi;
+        //stores maximum sum subarray found so far
+	 
+    	long long max_so_far = 0;
+    	 
+    	//stores the maximum sum of subarray ending at the current position
+    
+        long long max_ending_here = 0,cnt=0,maxi=-1e13;
+    
+    	//traverse the given array
+    
+    	for (int i = 0; i < n; i++)
+    	{
+        	/* update maximum sum of subarray "ending" at index i (by adding the current element to maximum sum ending at previous index i-1) */
+    
+        	max_ending_here = max_ending_here + arr[i];
+     
+        	/* if maximum sum is negative, set it to 0 (which represents an empty sub-array) */
+        	if(max_ending_here < 0)
+        	{
+            	max_ending_here = 0;
+        	}
+         	 
+        	//update result if current subarray sum is found to be greater
+        	if(max_so_far < max_ending_here)
+        	{
+            	max_so_far = max_ending_here;    
+        	}
+        	
+        	//to cater for the case if all elements are negative
+        	if(arr[i]<0) {cnt++; maxi= max(maxi, (long long)arr[i]);}
+    	}
+    	
+    	if(cnt==n) return maxi;
+    	return max_so_far;
         
     }
 };
