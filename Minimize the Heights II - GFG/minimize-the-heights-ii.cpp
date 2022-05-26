@@ -7,9 +7,11 @@ using namespace std;
  // } Driver Code Ends
 // User function template for C++
 
-// we know the usual answer is, In a sorted array, difference between (first element+k ) and (last element -k), is maximum
-// adding k and subtracting k is the only way we can bring them closer and thus minimise the difference between them, which is the maximum difference.
-// But in cases where K is in order of elements and adding or subtracting K, changes the sorted order, and largest no longer remain largest, and smallest no longer the smallest, then we have to find the correct largest and smallest element.
+// we know the usual answer is, In a sorted array, difference between (first element+k ) and (last element -k), 
+// is maximum adding k and subtracting k is the only way we can bring them closer and thus minimise the difference 
+// between them, which is the maximum difference. But in cases where K is in order of elements and adding or subtracting K, 
+// changes the sorted order, and largest no longer remain largest, and smallest no longer the smallest, then we have to find 
+// the correct largest and smallest element.
 
 // we keep them in mi, and ma, they are so far seen smallest(non-negative) and largest values
 // and also, we always can either add k or subtract k from a number, so we try both on arr[i] and collect smallest and largest, 
