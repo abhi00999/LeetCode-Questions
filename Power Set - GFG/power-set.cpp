@@ -9,13 +9,12 @@ class Solution{
 		    // Code here
 		    vector<string> res;
 		    for(int i=1;i<pow(2,s.size());i++){
-		        int cur=i,j=0;
+		        int j=0;
 		        string tmp;
 		        
-		        while(cur){
-		            if(cur%2) tmp.push_back(s[j]);
+		        while(j<s.size()){
+		            if(i&(1<<j)) tmp.push_back(s[j]);
 		            j++;
-		            cur/=2;
 		        }
 		        
 		        res.push_back(tmp);
