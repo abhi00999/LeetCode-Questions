@@ -18,7 +18,9 @@ class Solution {
 		    // Code here
 		    int n=str.size();
 		    vector<vector<int> > v(n, vector<int> (n,-1));
-		    return f(str,str, n-1,n-1 , v);
+		    f(str,str, n-1,n-1 , v);
+		
+		    return v[n-1][n-1];
 		}
 
 };
