@@ -35,23 +35,16 @@ public:
             int rf= f(i+1, right, s, 0, x)%x;
             
             if (s[i] == '&') {
-                if (need == 1) {
-                    ways += ((lt * rt) % mod) % mod;
-                } else {
-                    ways += ((lt * rf) % mod + (rt * lf) % mod + (lf * rf) % mod) % mod;
-                }
-            } else if (s[i] == '|') {
-                if (need == 1) { 
-                    ways += ((lt * rf) % mod + (lt * rt) % mod + (lf * rt) % mod) % mod;
-                } else {
-                    ways += ((lf * rf) % mod) % mod;
-                }
-            } else if (s[i] == '^') {
-                if (need == 1) {
-                    ways += ((lt * rf) % mod + (lf * rt) % mod) % mod;
-                } else {
-                    ways += ((lf * rf) % mod + (lt * rt) % mod) % mod;
-                }
+                if (need == 1) ways += ((lt * rt) % mod) % mod;
+                else ways += ((lt * rf) % mod + (rt * lf) % mod + (lf * rf) % mod) % mod;
+            } 
+            else if (s[i] == '|') {
+                if (need == 1) ways += ((lt * rf) % mod + (lt * rt) % mod + (lf * rt) % mod) % mod;
+                else ways += ((lf * rf) % mod) % mod;
+            } 
+            else if (s[i] == '^') {
+                if (need == 1) ways += ((lt * rf) % mod + (lf * rt) % mod) % mod;
+                else ways += ((lf * rf) % mod + (lt * rt) % mod) % mod;
             }
         }
         
