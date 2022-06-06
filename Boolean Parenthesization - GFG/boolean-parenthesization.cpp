@@ -12,7 +12,7 @@ public:
     
     int dp[205][205][2];
     
-    int f(int left, int right, string &s, int need, int x){
+    int f(int left, int right, string &s, int need){
         
         if(left>right) return 0;
         if(left==right){
@@ -26,25 +26,26 @@ public:
         
         if(dp[left][right][need]!=-1) return dp[left][right][need];
         
-        int ways=0,mod=x;
+        int ways=0,x=1003;
         int st=left+1, en=right-1;
         for(int i= st; i<=en;i+=2){
-            int lt= f(left, i-1, s, 1, x)%x;
-            int lf= f(left, i-1, s, 0, x)%x;
-            int rt= f(i+1, right, s, 1, x)%x;
-            int rf= f(i+1, right, s, 0, x)%x;
+            int lt= f(left, i-1, s, 1)%x;
+            int lf= f(left, i-1, s, 0)%x;
+            int rt= f(i+1, right, s, 1)%x;
+            int rf= f(i+1, right, s, 0)%x;
             
-            if (s[i] == '&') {
-                if (need == 1) ways += ((lt * rt) % mod) % mod;
-                else ways += ((lt * rf) % mod + (rt * lf) % mod + (lf * rf) % mod) % mod;
-            } 
-            else if (s[i] == '|') {
-                if (need == 1) ways += ((lt * rf) % mod + (lt * rt) % mod + (lf * rt) % mod) % mod;
-                else ways += ((lf * rf) % mod) % mod;
-            } 
-            else if (s[i] == '^') {
-                if (need == 1) ways += ((lt * rf) % mod + (lf * rt) % mod) % mod;
-                else ways += ((lf * rf) % mod + (lt * rt) % mod) % mod;
+            if(s[i]=='&'){
+                if(need)ways+= ((lt*rt)%x)%x;
+                else ways+= ((lt*rf)%x + (lf*rt)%x + (lf*rf)%x)%x;
+            }
+            if(s[i]=='|'){
+                if(need)ways+= ((lt*rt)%x + (lf*rt)%x + (lt*rf)%x)%x;
+                else ways+= ((lf*rf)%x)%x;
+            }
+            
+            if(s[i]=='^'){
+                if(need) ways+= ((lt*rf)%x + (lf*rt)%x)%x;
+                else ways+= ((lf*rf)%x + (lt*rt)%x)%x;
             }
         }
         
@@ -53,8 +54,8 @@ public:
     int countWays(int N, string S){
         // code here
         memset(dp, -1, sizeof(dp));
-        int left=0, right=N-1, x=1003;
-        return f(left, right,  S, 1, x);
+        int left=0, right=N-1;
+        return f(left, right,  S, 1);
     }
 };
 
