@@ -3,10 +3,8 @@ public:
     int calc(vector<int> &arr, int left, int mid , int right){
         int i=left, j=mid, res=0;
         while(i<=mid-1){
-            long long val,k=2;
-            if(j<=right) val= k*arr[j];
             if(j==right+1) res+=j-mid, i++;
-            else if(arr[i]>val) j++;
+            else if(arr[i]>2ll*arr[j]) j++;
             
             else{
                 res+=j-mid;
