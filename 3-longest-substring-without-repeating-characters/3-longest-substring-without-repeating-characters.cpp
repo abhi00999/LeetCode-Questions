@@ -9,6 +9,7 @@ public:
             m[s[j]]++;
             if(m[s[j]]==1){
                 ans= max(j-i+1, ans);
+                // cout<<j-i+1<<' ';
                 j++;
             }
             
@@ -17,6 +18,7 @@ public:
                     m[s[i]]--;
                     i++;
                 }
+                ans= max(j-i+1, ans);
                 j++;
             }
         }
