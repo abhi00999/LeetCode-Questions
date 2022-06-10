@@ -18,18 +18,23 @@ public:
         
         int pgfaults=0;
         for(int i=0;i<n;i++){
+            
+            // if size of cache is less than c
             if(s.size()<c){
+                
+                // if page is not found then insert it and also update its index
                 if(s.find(pages[i])==s.end()){
                     pgfaults++;
                     s.insert(pages[i]);
                 }
                 
+                // if page found then just update its index
                 mp[pages[i]]=i;
             }
             
             else{
                 
-                // LRU algorithm
+                // LRU algorithm : find least recently used using the index saved in the map
                 if(s.find(pages[i])==s.end()){
                     pgfaults++;
                     int lru=INT_MAX;
@@ -42,16 +47,16 @@ public:
                         }
                     }
                     
+                    // Delete LRU from set and its corresponding (key, index) from map also
                     s.erase(val);
                     mp.erase(val);
+                    // insert the new value
                     s.insert(pages[i]);
                 }
-                
+                // update the index
                 mp[pages[i]]=i;
             }
-            // cout<<pgfaults<<' ';
         }
-        // cout<<'\n';
         return pgfaults;
     }
 };
