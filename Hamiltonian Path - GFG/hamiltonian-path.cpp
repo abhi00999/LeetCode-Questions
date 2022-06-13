@@ -12,19 +12,18 @@ class Solution
     vector<int> vis;
     int ans;
     
-    void dfs(int ind,int cnt, int vertices){
-        if(ans) return;
+    bool dfs(int ind,int cnt, int vertices){
+        if(cnt==vertices) return true;
         vis[ind]=1;
         
         for(auto it: adj[ind]){
             if(vis[it]==0){
-                dfs(it, cnt+1, vertices);
+                if(dfs(it, cnt+1, vertices)) return true;
             }
         }
         
-        if(cnt==vertices) ans=1;
         vis[ind]=0;
-        return;
+        return false;
     }
     bool check(int n,int m,vector<vector<int>> e)
     {
@@ -37,12 +36,10 @@ class Solution
             adj[it[1]].push_back(it[0]);
         }
         
-        ans=0;
         for(int i=1;i<=n;i++){
-            dfs(i,1,n);
-            if(ans) break;
+            if(dfs(i,1,n)) return 1;
         }
-        return (ans)? 1:0;
+        return 0;
     }
 };
  
