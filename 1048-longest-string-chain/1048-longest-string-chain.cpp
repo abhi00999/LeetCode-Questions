@@ -1,38 +1,33 @@
 class Solution {
 public:
-    bool check(string a, string b){
-        int i=0,j=0,sz=a.size(), sz1=b.size(), cnt=0;
-        if(sz1==sz || sz1-sz>1) return false;
-        
-        while(i<sz || j<sz1){
-            if(j==sz1) {i++, cnt++; continue;}
-            if(i==sz) {j++, cnt++; continue;}
-            if(a[i]==b[j]) i++,j++;
-            else j++,cnt++;
-            
-            
-        }
-        // cout<<i<<" "<<j<<' '<<cnt<<"\n";
-        if(i==sz && j==sz1 && cnt==1) return true;
-        return false;
-    }
-    static bool comp(string &a, string &b){
-        return a.size()<b.size();
-    }
     
+    static bool compare(const string &s1, const string &s2) {
+        return s1.length() < s2.length();
+    } 
+    
+    //O(n2) does not works here (like Q.646) 
+    //Time O(NlogN) for sorting,
+    //Time O(NSS) for the for loop, where the second S refers to the string generation and S <= 16.
+    //Space O(NS)
     int longestStrChain(vector<string>& words) {
         int n=words.size();
-        sort(words.begin(),words.end(), comp);
         
-        int dp[n], maxi=INT_MIN;
+        //vvimp... comparator function to sort vector of strings based on size of string
+        sort(words.begin(),words.end(),compare);
         
-        for(int i=0;i<n;i++){
-            dp[i]=1;
-            for(int j=0;j<i;j++){
-                if(check(words[j], words[i])) dp[i]= max(dp[i], dp[j]+1);
+        map<string,int> dp;
+        int ans=0;
+        
+        for(auto it: words){
+            dp[it]=1;
+            //This for loop will generate for every string-> all corresponding strings after deleting a single character
+            for(int i=0;i<it.size();i++){
+                string tmp= it.substr(0,i)+ it.substr(i+1);
+                if(dp[tmp]>0) dp[it]= max(dp[it],dp[tmp]+1);
             }
-            maxi= max(maxi, dp[i]);
+            ans= max(ans,dp[it]);
         }
-        return maxi;
+        
+        return ans;
     }
 };
