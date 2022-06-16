@@ -28,8 +28,10 @@ public:
 //         return open;
 //     }
     
+//     DP Solution
 //     n=7 ; nums = [1,2,1,0,2,1,0,1]
 //     n=7 but length of nums=8, so that's why we create dp(n+1)
+//     dp[start] is defined as the min number of water tap to fill i <= start, any i in the range[start, end] will have 1 + dp[start] number of ta
     
        int minTaps(int n, vector<int>& nums) {
            vector<int> dp(n+1, 1e7);
