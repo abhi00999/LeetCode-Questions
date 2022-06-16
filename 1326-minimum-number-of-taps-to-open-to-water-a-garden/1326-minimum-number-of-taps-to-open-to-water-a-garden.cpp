@@ -27,6 +27,10 @@ public:
         
 //         return open;
 //     }
+    
+//     n=7 ; nums = [1,2,1,0,2,1,0,1]
+//     n=7 but length of nums=8, so that's why we create dp(n+1)
+    
        int minTaps(int n, vector<int>& nums) {
            vector<int> dp(n+1, 1e7);
            dp[0]=0;
