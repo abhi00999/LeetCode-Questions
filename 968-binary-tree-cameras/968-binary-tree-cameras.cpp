@@ -16,10 +16,11 @@ public:
         bool hasCamera;
         bool monitored;
     };
-    map< pair<int, pair<bool,bool> > , int> m;
+    map< pair<TreeNode*, pair<bool,bool> > , int> m;
     int f(TreeNode* root, bool hasCamera, bool monitored){
         if(root==NULL) return 0;
         
+        if(m.count({root, {hasCamera, monitored}}) ) return m[{root, {hasCamera, monitored}}];
         if(hasCamera) return 1+ f(root->left, false, true) + f(root->right, false, true);
         
         if(monitored){
@@ -28,15 +29,13 @@ public:
             return min(putCam, noCam);
         }
         
-        // The below condition is here because we only want root->val if all of its subtrees have been calculated already
-        if (root->val != 0) return root->val;
         int putCam= 1+ f(root->left, false, true)+ f(root->right, false, true);
         
         int leftCam=INT_MAX, rightCam=INT_MAX;
         if(root->left) leftCam= f(root->left, true, false)+ f(root->right, false, false);
         if(root->right) rightCam= f(root->left, false, false )+ f(root->right, true, false);
         
-        return root->val= min({putCam, leftCam, rightCam});             
+        return m[{root, {hasCamera, monitored}}]= min({putCam, leftCam, rightCam});             
     }
     int minCameraCover(TreeNode* root) {
         
