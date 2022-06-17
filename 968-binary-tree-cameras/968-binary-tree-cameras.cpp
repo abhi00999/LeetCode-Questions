@@ -16,10 +16,9 @@ public:
         bool hasCamera;
         bool monitored;
     };
-    map< it , int> m;
+    map< pair<int, pair<bool,bool> > , int> m;
     int f(TreeNode* root, bool hasCamera, bool monitored){
         if(root==NULL) return 0;
-        
         
         if(hasCamera) return 1+ f(root->left, false, true) + f(root->right, false, true);
         
@@ -29,6 +28,7 @@ public:
             return min(putCam, noCam);
         }
         
+        // The below condition is here because we only want root->val if all of its subtrees have been calculated already
         if (root->val != 0) return root->val;
         int putCam= 1+ f(root->left, false, true)+ f(root->right, false, true);
         
