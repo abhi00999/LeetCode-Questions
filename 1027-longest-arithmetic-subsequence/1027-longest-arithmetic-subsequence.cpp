@@ -7,6 +7,7 @@ public:
         
         for(int i=1;i<n;i++){
             for(int j=0;j<i;j++){
+                // we add 500 to take care of negative indexes
                 int diff=nums[i]-nums[j]+500;
                 
                 // if at index j there was already a sequence ending with difference "diff" then we just add it to 
