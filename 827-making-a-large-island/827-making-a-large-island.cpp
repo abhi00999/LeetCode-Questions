@@ -18,7 +18,11 @@ public:
         for (auto j = 0; j < g[i].size(); ++j)
           if (g[i][j] == 0) {
             unordered_set<int> s = { get(i + 1, j, g), get(i - 1, j, g), get(i, j + 1, g), get(i, j - 1, g) };
-            res = max(res, 1 + accumulate(begin(s), end(s), 0, [&](int a, int b) {return a + sizes[b]; }));
+            // res = max(res, 1 + accumulate(begin(s), end(s), 0, [&](int a, int b) {return a + sizes[b]; }));
+              int cur=0;
+              for(auto it: s) cur+= sizes[it];
+              
+              res= max(res,1+cur);
           }
       return res == 0 ? g.size() * g[0].size() : res;
     }
