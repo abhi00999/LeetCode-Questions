@@ -1,3 +1,13 @@
+// For eg:
+// For matrix= 
+// 0 1 1 1
+// 1 1 1 1
+// 0 1 1 1
+// Dp will be
+// 0 3 2 1
+// 1 2 2 1
+// 0 1 1 1
+        
 class Solution {
 public:
     int dp[500][500];
@@ -23,6 +33,9 @@ public:
         memset(dp, -1, sizeof(dp));
         int ans=0;
         f(0,0, n, m, matrix);
+        
+        // dp[i][j] denotes maximum possible side of square starting from that point
+        // It also denotes how many square submatrices end there(for this question we sum all dp[i][j])
         
         for(int i=0;i<n;i++) for(int j=0;j<m;j++) ans+=dp[i][j];
         return ans;
