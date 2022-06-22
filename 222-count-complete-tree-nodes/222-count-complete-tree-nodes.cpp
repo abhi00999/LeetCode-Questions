@@ -11,10 +11,26 @@
  */
 class Solution {
 public:
+    int calcl(TreeNode* root){
+        if(root==NULL) return 0;
+        
+        return 1+ calcl(root->left);
+    }
+    
+    int calcr(TreeNode* root){
+        if(root==NULL) return 0;
+        
+        return 1+calcr(root->right);
+    }
+    
     int f(TreeNode *root){
         if(root==NULL) return 0;
         
-        return 1+ f(root->left)+ f(root->right);
+        int lh= calcl(root), rh=calcr(root);
+        if(lh==rh){
+            return pow(2,lh)-1;
+        }
+        return 1+f(root->left)+f(root->right);
     }
     int countNodes(TreeNode* root) {
         return f(root);
