@@ -29,7 +29,6 @@ public:
             int r= pq.top().second.first, c= pq.top().second.second;
             pq.pop();
             
-            minBdht= max(minBdht, currHt);
             int dr[]={1,0,0,-1};
             int dc[]={0,-1,1,0};
             
@@ -37,12 +36,17 @@ public:
             for(int i=0;i<4;i++){
                 int rr= r+dr[i], cc=c+dc[i];
                 if(rr>=0 && rr<R && cc>=0 && cc<C && vis[rr][cc]==0){
-                    pq.push({grid[rr][cc], {rr,cc}});
+                    
                     vis[rr][cc]=1;
                     
-                    // For explanation see video from 14:00
-                    if(grid[rr][cc]<minBdht){
-                        vol+=minBdht-grid[rr][cc];
+                
+                    if(grid[rr][cc]<currHt){
+                        vol+=currHt-grid[rr][cc];
+                        pq.push({currHt, {rr,cc}});
+                    }
+                    
+                    else{
+                        pq.push({grid[rr][cc], {rr,cc}});
                     }
                 }
             }
