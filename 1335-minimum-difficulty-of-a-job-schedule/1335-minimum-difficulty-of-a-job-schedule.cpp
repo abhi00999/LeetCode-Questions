@@ -2,7 +2,7 @@ class Solution {
 public:
     
     int dp[305][15];
-    
+    // dp[last][d]--> means the last is the index of the last cut and d is the remaining no. of cuts
     int f(int last, int n, vector<int> &job,int d){
         
         if(d==1){
