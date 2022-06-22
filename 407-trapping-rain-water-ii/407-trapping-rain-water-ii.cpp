@@ -25,6 +25,8 @@ public:
         }
         int minBdht=0;
         while(!pq.empty()){
+            // we take the topmost element and that will be the current boundary height
+            // as every other element will surely be greater than it
             int currHt= pq.top().first;
             int r= pq.top().second.first, c= pq.top().second.second;
             pq.pop();
@@ -32,7 +34,7 @@ public:
             int dr[]={1,0,0,-1};
             int dc[]={0,-1,1,0};
             
-            // Exploring current cells neightbours
+            // Exploring current cell's neighbours
             for(int i=0;i<4;i++){
                 int rr= r+dr[i], cc=c+dc[i];
                 if(rr>=0 && rr<R && cc>=0 && cc<C && vis[rr][cc]==0){
@@ -40,11 +42,14 @@ public:
                     vis[rr][cc]=1;
                     
                 
+                    // water will only fill if the new cell has ht. less than that of current boundary height
+                    // and ht. of water will be equal to currht itself so we push {currHt,{rr,cc}}
                     if(grid[rr][cc]<currHt){
                         vol+=currHt-grid[rr][cc];
                         pq.push({currHt, {rr,cc}});
                     }
                     
+                    // otherwise we push as follows
                     else{
                         pq.push({grid[rr][cc], {rr,cc}});
                     }
