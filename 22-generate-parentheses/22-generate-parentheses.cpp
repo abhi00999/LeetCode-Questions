@@ -22,12 +22,13 @@ public:
             return;
         }
         
-        s.push_back('(');
-        f(s, tot, res);
-        s.pop_back();
-        s.push_back(')');
-        f(s, tot, res);
-        s.pop_back();
+        string s1=s,s2=s;
+        s1.push_back('(');
+        s2.push_back(')');
+        
+        
+        f(s1, tot, res);
+        f(s2, tot, res);
         return;
     }
     
