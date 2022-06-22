@@ -2,13 +2,12 @@ class Solution {
 public:
     void f(int last, int cur_ind, vector<string>& wordDict, string s, vector<vector<string> > &res, vector<string> &cur, vector<bool> &dp){
         if(cur_ind==s.size()+1){
-            cout<<1<<' ';
             res.push_back(cur);
             return;
         }
         
         for(int i=cur_ind;i<=s.size();i++){
-            if(dp[last]==true && dp[i]==true && find(wordDict.begin(),wordDict.end(),s.substr(last, i-last)) != wordDict.end()){
+            if(find(wordDict.begin(),wordDict.end(),s.substr(last, i-last)) != wordDict.end()){
                 
                 cur.push_back(s.substr(last, i-last));
                 f(i,i+1,wordDict, s, res, cur, dp);
