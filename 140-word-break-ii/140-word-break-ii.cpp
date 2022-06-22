@@ -1,36 +1,34 @@
+// best solution(readable and all) is the 4ms solution(using unordered set)
 class Solution {
 public:
-    vector<string> wordBreak(string s, vector<string>& wordDict) {
-        //insert all the words in the set
-        unordered_set<string> set;
-        vector<string> res;
-        for(auto word:wordDict)
-            set.insert(word);
-        //to store the current string 
-        string curr="";
-        findHelper(0,s,curr,set,res);
-        return res;
-    }
-    
-    void findHelper(int ind,string s,string curr,unordered_set<string> set,vector<string>& res)
-    {
-        if(ind==s.length())
-        {
-            //we have reached end
-            curr.pop_back(); //remove the trailing space
-            res.push_back(curr);
+    void f(int ind, vector<string>& wordDict, string s, vector<string> &res, string &cur){
+        if(ind==s.size()){
+            cur.pop_back();
+            res.push_back(cur);
+            return;
         }
+        
         string str="";
-        for(int i=ind;i<s.length();i++)
-        {
-            //get every substring and check if it exists in set
+        for(int i=ind;i<s.size();i++){
+            
             str.push_back(s[i]);
-            if(set.count(str))
-            {
+            //get every substring and check if it exists in vector
+            if(find(wordDict.begin(),wordDict.end(),str) != wordDict.end()){
                 //we have got a word in dict 
                 //explore more and get other substrings
-                findHelper(i+1,s,curr+str+" ",set,res);
+                string tmp= cur+str;
+                tmp.push_back(' ');
+                f(i+1,wordDict, s, res, tmp);
             }
         }
+        
+    }
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        
+        string cur="";
+        vector<string> res;
+        f(0,wordDict, s, res, cur);
+        return res;
+        
     }
 };
