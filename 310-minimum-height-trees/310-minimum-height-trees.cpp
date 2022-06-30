@@ -1,3 +1,17 @@
+// We use Topological Sorting!
+
+// We create an array called indegree which keeps the count of the no. of edges approaching each node in the tree.
+// We start with the nodes having the minimum indegree (ie; indegree=1, i.e the leaf nodes) and we go on removing them i.e decrementing the indegree of nodes that're connected to them, until we reach the middle nodes.
+// So we can have only one root or at max two roots for minimum height depending on tree structure as explained above.
+// For the implementation, we are going to use a BFS like approach.
+// To begin with, all leaf node are pushed into the queue, then they are removed from the tree, next new leaf node is pushed in the queue, this procedure keeps on going until we have only 1 or 2 node in our tree, which represent the result.
+// Time Complexity : O(V+E)
+
+// Space Complexity : O(V)
+
+// Code :
+// The code uses the basic algorithm of topological sorting
+
 class Solution {
 public:
     vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
