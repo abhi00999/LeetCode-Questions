@@ -1,3 +1,4 @@
+// See O(n) solution too.. vortubac
 class Solution {
 public:
     vector<int> rearrangeBarcodes(vector<int>& b) {
