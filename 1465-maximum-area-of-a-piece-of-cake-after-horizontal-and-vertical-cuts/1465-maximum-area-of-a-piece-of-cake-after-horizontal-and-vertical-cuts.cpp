@@ -8,18 +8,17 @@ public:
         vv.push_back(w);
         vv.insert(vv.begin(),0);
         
-        long long maxh=0,maxw=0,mod=1e9+7;
+        int maxh=0,maxw=0,mod=1e9+7;
         
         for(int i=1;i<hh.size();i++){
             
-            maxh= max(maxh, (long long)hh[i]-hh[i-1]);
+            maxh= max(maxh, hh[i]-hh[i-1]);
         }
         
         for(int i=1;i<vv.size();i++){
-            maxw= max(maxw, (long long)vv[i]-vv[i-1]);
+            maxw= max(maxw, vv[i]-vv[i-1]);
         }
         
-        long long ans= ((maxh%mod)*(maxw%mod))%mod;
-        return ans;
+        return (long)maxh * maxw % 1000000007;
     }
 };
