@@ -11,55 +11,31 @@
  */
 class Solution {
 public:
-    vector<pair<int,int>> v;
-    int totSum;
-    int sumTillNode(TreeNode* root, map<TreeNode*, int> &m){        
-        if(root==NULL) return 0;
-        int right= sumTillNode(root->right, m);
-        int left= sumTillNode(root->left, m);
-        
-        m[root]= left+right+root->val;
-        return m[root];        
-    }
-    
-    void f(TreeNode* root, map<TreeNode*, int> &m, int totSum){
+    long long totSum=0, res=0;
+    void getTotalSum(TreeNode* root){        
         if(root==NULL) return;
         
-        if(root->left !=NULL){
-            int left= m[root->left];
-            int rem= totSum-left;
-            v.push_back({left,rem});
-        }
-        if(root->right !=NULL){
-            int right= m[root->right];
-            int rem= totSum-right;
-            v.push_back({right,rem});
-        }
-        
-        f(root->left,m, totSum);
-        f(root->right,m, totSum);
-        
+        totSum+=root->val;
+        getTotalSum(root->right);
+        getTotalSum(root->left); 
+    }
+    
+    int SumUnder(TreeNode* root)             //Get the totalSum under the node `root` including root.
+    {
+       if(!root) return 0;
+        //Get the sum of left and right subtree under node 'root'
+       int sumUnderLeft=SumUnder(root->left),sumUnderRight=SumUnder(root->right); 
+        //Get the max product after making left or right subtrees as seprarate tree. 
+       res=max({res,(totSum-sumUnderLeft)*sumUnderLeft,(totSum-sumUnderRight)*sumUnderRight});
+       return sumUnderLeft+sumUnderRight+root->val;
     }
     int maxProduct(TreeNode* root) {
         
-        v.clear();
-        map<TreeNode*, int> m;
-        sumTillNode(root,m);
-        int totSum= m[root], mod=1e9+7;
-        f(root,m,totSum);
+        totSum=0;
+        getTotalSum(root);
         
-        int idx, mini=INT_MAX;
-        for(int i=0;i<v.size();i++){
-            int diff= abs(v[i].first-v[i].second);
-            if(diff<mini){
-                mini=diff;
-                idx=i;
-            }
-        }
-        
-        // for(auto it: v){
-        //     cout<<it.first<<" "<<it.second<<'\n';
-        // }
-        return (long) v[idx].first*v[idx].second%mod;
+        SumUnder(root);
+        int mod=1e9+7;     
+        return res%mod;
     }
 };
