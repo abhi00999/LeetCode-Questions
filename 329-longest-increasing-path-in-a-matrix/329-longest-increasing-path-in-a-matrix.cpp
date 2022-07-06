@@ -1,29 +1,52 @@
 class Solution {
+    vector<vector<int>> directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    int rows, cols, longest = 0;
 public:
-    int moves[4][2] = { {-1,0},{1,0},{0,-1},{0,1} };
-    vector<vector<int> > dp; // dp[i][j] will store maximum path length starting from matrix[i][j]
-    int maxPath, n, m;
     int longestIncreasingPath(vector<vector<int>>& matrix) {
-        maxPath = 0, n = size(matrix), m = size(matrix[0]);
-        dp.resize(n, vector<int>(m));
-        // calculating maximum path from each cell and at last returning the maximum length
-        for(int i = 0; i < n; i++)
-            for(int j = 0; j < m; j++)
-                maxPath = max(maxPath, solve(matrix, i, j));            
-        return maxPath;
-    }
-    // recursive solver for each cell with dp for storing each calculated result
-    int solve(vector<vector<int>>& mat, int i, int j){
-        if(dp[i][j]) return dp[i][j]; // return if result is already calculated
-        dp[i][j] = 1;  // minimum path from each cell is always atleast 1
-        // choosing each possible move available to us
-        for(int k = 0; k < 4; k++){ 
-            int new_i = i + moves[k][0], new_j = j + moves[k][1];
-            // bound checking as well as move to next cell only when it is greater in value
-            if(new_i < 0 || new_j < 0 || new_i >= n || new_j >= m || mat[new_i][new_j] <= mat[i][j]) continue;
-            // max( current optimal, select current + optimal solution after moves[k] from current cell
-            dp[i][j] = max(dp[i][j], 1 + solve(mat, new_i, new_j));
-        }         
-        return dp[i][j];
+        rows = matrix.size();
+        // Empty
+        if(!rows) return 0;
+        cols = matrix[0].size();
+        // Matrix corresponding to Indegree count
+        vector<vector<int>> Indegree(rows, vector<int>(cols));
+        // Source nodes of increasing paths
+        queue<pair<int, int>> q;
+        
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                for(auto &d: directions){
+                    int x = i + d[0];
+                    int y = j + d[1];
+                    // OUT OF BOUNDS CHECK
+                    if(x >= 0 && x < rows && y >= 0 && y < cols){
+                        // Increasing Path (end)
+                        if(matrix[x][y] < matrix[i][j]) Indegree[i][j]++;
+                    }
+                }
+                // Increasing Path (start)
+                if(!Indegree[i][j]) q.push({i, j});
+            }
+        }
+        // BFS
+        while(!q.empty()){
+            int size = q.size();
+            while(size--){
+                pair<int,int> current = q.front();    // Current matrix cell
+                q.pop();
+                // Explore neigbhors
+                for(auto &d: directions){
+                    int x = current.first + d[0];
+                    int y = current.second + d[1];
+                    // OUT OF BOUNDS CHECK
+                    if(x >= 0 && x < rows && y >= 0 && y < cols){
+                      // "Erase" current cell and move onto next level
+                        if(matrix[x][y] > matrix[current.first][current.second] && --Indegree[x][y] == 0)
+                            q.push({x,y});
+                    }
+                }
+            }
+            longest++;
+        }
+        return longest;
     }
 };
