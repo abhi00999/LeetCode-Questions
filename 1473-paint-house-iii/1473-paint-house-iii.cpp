@@ -1,35 +1,34 @@
 class Solution {
 public:
     
-    int dp[105][105][50];
+    int dp[105][105][22];
     
-    int f(int idx,int val, vector<int>& houses, vector<vector<int>>& cost, int m, int n, int target,int prev){
-        // cout<<idx<<" "<<target<<"\n";
-        if(target<0) return 1e7;
-        if(idx == m)      // If we have visited all houses
-        {
-            if(target == val)       // If neighbours are same as required, then no more cost is required.
-                return 0;
-            return 1e7;     // If neighbours are not same, then this build is not valid.
-        }
+    int f(int idx, int val, vector<int>& houses, vector<vector<int>>& cost, int m, int n, int target,int prev){
+        // cout<<idx<<" "<<val<<'\n';
+        if(idx==m && val==target) return 0;
+        if(idx==m || val>target)return 1e7;
         
-        if(dp[idx][val][prev]!=-1) return dp[idx][val][prev];   
+        if(dp[idx][val][prev]!=-1) return dp[idx][val][prev];
         
-        if(houses[idx] != 0)       // If house is already coloured.
-        {
-            return dp[idx][val][prev] = f(idx+1, val+(prev!=houses[idx]),houses, cost, m ,n, target, houses[idx]);
+        if(houses[idx]==0){
+            int nval=val,tot=1e7;
+            
+            for(int i=0;i<n;i++){
+                if(prev==i+1)tot= min(tot, cost[idx][i]+ f(idx+1, val, houses, cost, m, n, target, prev));
+                else tot= min(tot, cost[idx][i]+f(idx+1, val+1, houses, cost, m, n, target, i+1));
+            }
+            return dp[idx][val][prev]=tot;
         }
-        int ans = INT_MAX;         // If we are colouring house, then find minimum cost.
-        for(int i=1;i<=n;i++)
-        {
-            ans = min(ans,cost[idx][i-1]+f(idx+1, val+(prev!=i),houses, cost, m ,n, target, i));
-        }
-        return dp[idx][val][prev] = ans;
+        else if(houses[idx]==prev) return dp[idx][val][prev]=f(idx+1, val, houses, cost, m, n, target, prev);
+        return dp[idx][val][prev]=f(idx+1, val+1, houses, cost, m, n, target, houses[idx]);
+        
+        
+        
+        
     }
     int minCost(vector<int>& houses, vector<vector<int>>& cost, int m, int n, int target) {
         memset(dp,-1,sizeof(dp));
-        int ans= f(0,0, houses, cost, m, n, target,40);
-        cout<<ans<<" "; 
+        int ans= f(0,0, houses, cost, m, n, target,n+1);
         return (ans>=1e7)? -1: ans;
     }
 };
