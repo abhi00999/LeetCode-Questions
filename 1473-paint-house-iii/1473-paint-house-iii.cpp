@@ -1,37 +1,35 @@
-#define ll long long
-ll dp[105][25][105];
-ll solve(vector<int>& houses,ll index,vector<vector<int>>& cost,ll prev,ll m,ll n,ll target)
-{
-    if(target<0)              // If target index is -ve then answer is not build as it has more neighbours.
-        return INT_MAX;
-    if(index == m)      // If we have visited all houses
-    {
-        if(target == 0)       // If neighbours are same as required, then no more cost is required.
-            return 0;
-        return INT_MAX;     // If neighbours are not same, then this build is not valid.
-    }
-    if(dp[index][prev][target] != -1)
-        return dp[index][prev][target];
-    if(houses[index] != 0)       // If house is already coloured.
-    {
-        return dp[index][prev][target] = solve(houses,index+1,cost,houses[index],m,n,target-(prev!=houses[index]));
-    }
-    ll ans = INT_MAX;         // If we are colouring house, then find minimum cost.
-    for(int i=1;i<=n;i++)
-    {
-        ans = min(ans,cost[index][i-1]+solve(houses,index+1,cost,i,m,n,target-(prev!=i)));
-    }
-    return dp[index][prev][target] = ans;
-}
 class Solution {
 public:
+    
+    int dp[105][105][50];
+    
+    int f(int idx, vector<int>& houses, vector<vector<int>>& cost, int m, int n, int target,int prev){
+        // cout<<idx<<" "<<target<<"\n";
+        if(target<0) return 1e7;
+        if(idx == m)      // If we have visited all houses
+        {
+            if(target == 0)       // If neighbours are same as required, then no more cost is required.
+                return 0;
+            return 1e7;     // If neighbours are not same, then this build is not valid.
+        }
+        
+        if(dp[idx][target][prev]!=-1) return dp[idx][target][prev];   
+        
+        if(houses[idx] != 0)       // If house is already coloured.
+        {
+            return dp[idx][target][prev] = f(idx+1,houses, cost, m ,n, target-(prev!=houses[idx]), houses[idx]);
+        }
+        int ans = INT_MAX;         // If we are colouring house, then find minimum cost.
+        for(int i=1;i<=n;i++)
+        {
+            ans = min(ans,cost[idx][i-1]+f(idx+1,houses, cost, m ,n, target-(prev!=i), i));
+        }
+        return dp[idx][target][prev] = ans;
+    }
     int minCost(vector<int>& houses, vector<vector<int>>& cost, int m, int n, int target) {
-	  // memset dp with -1.
         memset(dp,-1,sizeof(dp));
-		// Calculate answer using recursive dp.
-        ll ans = solve(houses,0,cost,n+1,m,n,target);
-        if(ans == INT_MAX) // If answer comes out to be INT_MAX then actually such combination is not possible.
-            return -1;
-        return ans;
+        int ans= f(0, houses, cost, m, n, target,40);
+        cout<<ans<<" "; 
+        return (ans>=1e7)? -1: ans;
     }
 };
