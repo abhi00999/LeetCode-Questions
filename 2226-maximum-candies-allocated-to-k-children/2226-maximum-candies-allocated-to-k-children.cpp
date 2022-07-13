@@ -13,9 +13,6 @@ public:
     int maximumCandies(vector<int>& c, long long k) {
         sort(c.begin(),c.end());
         ll ans=0, mini=0, maxi= c[c.size()-1];
-        ll sum= accumulate(c.begin(), c.end(), 0ll);
-        if(k>sum) return 0;
-        if(k==sum) return 1;
         
         while(mini<=maxi){
             ll mid= (mini+maxi)/2;
