@@ -14,19 +14,19 @@ public:
         ListNode *tmp= new ListNode(0), *tmp1= new ListNode(0),*dummy,*dummy1;
         dummy=tmp;
         dummy1=tmp1;
+        
         while(head!=NULL){
             if(head->val<x){
-                ListNode *cur= new ListNode(head->val);
-                tmp->next=cur;
+                tmp->next=head;
                 tmp=tmp->next;
             }
             else{
-                ListNode *cur= new ListNode(head->val);
-                tmp1->next=cur;
+                tmp1->next=head;
                 tmp1=tmp1->next;
             }
             head=head->next;
         }
+        tmp1->next=NULL;
         tmp->next=dummy1->next;
         return dummy->next;                 
     }
