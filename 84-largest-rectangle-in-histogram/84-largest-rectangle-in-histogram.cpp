@@ -1,35 +1,42 @@
 class Solution {
 public:
-    int largestRectangleArea(vector<int>& h) {
-        int n=h.size();
+    int largestRectangleArea(vector<int>& histogram) {
+        int n=histogram.size(), area=0;
         stack<int> s,s1;
         
-        vector<int> left(n),right(n);
-        
-//         to find left smaller than current index
-        for(int i=0;i<n;i++){
-            while(!s.empty() && h[s.top()]>=h[i]) s.pop();
-            
-            if(!s.empty()) left[i]=s.top()+1;
-            else left[i]=0;
-            
+        for(int i=0; i<n; i++){
+            while(!s.empty() && histogram[s.top()]>=histogram[i]){
+                int top = s.top();
+                s.pop();
+                
+                int start;
+                if(s.empty())
+                    start = -1;
+                else
+                    start = s.top();
+                    
+                
+                int curr_area = histogram[top] * (i - start -1);
+                area = max(area, curr_area);
+            }
             s.push(i);
         }
-//         to find right smaller than current index        
-        for(int i=n-1;i>=0;i--){
-            while(!s1.empty() && h[s1.top()]>=h[i]) s1.pop();
+    
+        
+        while(!s.empty()){
+            int top = s.top();
+            s.pop();
+
+            int start;
+            if(s.empty())
+                start = -1;
+            else
+                start = s.top();
             
-            if(!s1.empty()) right[i]=s1.top()-1;
-            else right[i]=n-1;
-            
-            s1.push(i);
+            int curr_area = histogram[top] * (n - start -1);
+            area = max(area, curr_area);
         }
         
-        int ma=INT_MIN;
-        for(int i=0;i<n;i++){
-            int cur= (right[i]-left[i]+1)*h[i];
-            ma= max(ma,cur);
-        }
-        return ma;
+        return area;
     }
 };
