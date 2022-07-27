@@ -2,17 +2,15 @@ class Solution {
 public:
     int ans;
     
-    void dfs(int parent, int idx, vector<vector<int>> &adj, vector<vector<int>> &outgoing, vector<int> &vis){
+    void dfs(int idx, vector<vector<int>> &adj, vector<vector<int>> &outgoing, vector<int> &vis){
         vis[idx]=1;
-        
-        if(parent!=-1){
-            if(find(outgoing[idx].begin(),outgoing[idx].end(),parent)==outgoing[idx].end())
-                ans++;
-        }
         
         for(auto it: adj[idx]){
             if(vis[it]==0){
-                dfs(idx, it, adj, outgoing, vis);
+                int flag=0;
+                for(auto i: outgoing[it]) if(i==idx) flag++;
+                if(!flag) ans++;
+                dfs(it, adj, outgoing, vis);
             }
         }
     }
@@ -28,7 +26,7 @@ public:
             outgoing[it[0]].push_back(it[1]);
         }
         
-        dfs(-1, 0, adj, outgoing, vis);
+        dfs(0, adj, outgoing, vis);
         return ans;
     }
 };
