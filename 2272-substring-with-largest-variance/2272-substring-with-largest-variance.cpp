@@ -16,6 +16,11 @@ public:
             else if(arr[i]==-1) neg++ , g--;
             
             if(pos>=neg && pos && neg) maxi= max(maxi, pos-neg);
+            // Below condition means ki aage negative hai aur abhi negative overpower kar 
+            // rha positive ko toh aage wale negative ko hi consider karenge
+            // par agr aage negative nai hy toh iss wale negative ko lena hi hoga
+            // (eg "lripaa") if 'a'= pos && 'p'=neg then agr 'p' pe pohoche toh g 0 ho
+            // jayega par kyuki aage 'p' nai hy toh iss wale 'p' ko lena hi hoga
             if(pos<neg&&g>0) {pos=0; neg=0;}
         }
         
