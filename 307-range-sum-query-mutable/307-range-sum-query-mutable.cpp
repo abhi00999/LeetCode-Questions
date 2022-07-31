@@ -1,3 +1,4 @@
+// ek baar seg tree ban gaya toh fir original array ki koi zarurat nai
 class NumArray {
 public:
     vector<int> segTree;
@@ -49,7 +50,7 @@ public:
     
     int sumRange(int left, int right) {
         return query(0, 0, n-1, left, right);
-        // query(idx, )
+        // starting by --> query(idx, 0(array start), n-1(array end), left, right)
     }
 };
 
