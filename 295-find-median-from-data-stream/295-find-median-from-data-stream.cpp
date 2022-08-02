@@ -26,6 +26,7 @@ public:
         }
     }
     
+    // while finding median size of any priority queue can be more(depending on the testcase)
     double findMedian() {
         if(p1.size() == p2.size()) return p1.empty()?0:( (p1.top()+p2.top())/2.0);
         else return (p1.size() > p2.size())? p1.top():p2.top(); 
